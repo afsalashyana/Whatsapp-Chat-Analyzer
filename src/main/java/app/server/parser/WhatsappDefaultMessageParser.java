@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 public class WhatsappDefaultMessageParser {
 
-  private static final String MAIN_REGEX = "^(\\d+\\/\\d+\\/\\d+),.(\\d+:\\d+.(pm|am)).-.(.*):(.*)";
+  private static final String MAIN_REGEX = "^(\\d+\\/\\d+\\/\\d+),.(\\d+:\\d+.(pm|am)).-.([^:]*):(.*)";
   private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yy h:mm a", Locale.US);
 
   public List<WhatsappMessage> parseFile(File file) throws IOException {

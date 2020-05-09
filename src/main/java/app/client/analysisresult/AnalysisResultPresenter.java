@@ -1,6 +1,7 @@
 package app.client.analysisresult;
 
 import app.client.analysisresult.dailyfrequency.DailyChatFrequencyService;
+import app.client.analysisresult.messagecount.MessageCountDistributionService;
 import app.client.analysisresult.topwords.TopWordFinderService;
 import app.server.parser.model.WhatsappMessage;
 import java.net.URL;
@@ -10,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -29,6 +31,8 @@ public class AnalysisResultPresenter implements Initializable {
   public LineChart<String, Long> lineChartChatFrequencyByDate;
   @FXML
   public BarChart<String, Long> barChartWordCount;
+  @FXML
+  public PieChart pieChartSenderDistribution;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -42,6 +46,13 @@ public class AnalysisResultPresenter implements Initializable {
   public void refresh() {
     populateFrequencyGraph();
     populateWordCountGraph();
+    populateSenderDistributionGraph();
+  }
+
+  private void populateSenderDistributionGraph() {
+    pieChartSenderDistribution.getData().clear();
+    List<PieChart.Data> dataSeries = new MessageCountDistributionService().prepareChartData(whatsappMessages);
+    pieChartSenderDistribution.getData().addAll(dataSeries);
   }
 
   private void populateWordCountGraph() {
