@@ -1,5 +1,6 @@
 package app.server.parser;
 
+import app.server.parser.exception.UnsupportedExportFileException;
 import app.server.parser.model.WhatsappMessage;
 import com.google.common.collect.Iterables;
 import java.io.File;
@@ -18,7 +19,7 @@ public class WhatsappDefaultMessageParser {
   private static final String MAIN_REGEX = "^(\\d+\\/\\d+\\/\\d+),.(\\d+:\\d+.(pm|am)).-.([^:]*):(.*)";
   private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yy h:mm a", Locale.US);
 
-  public List<WhatsappMessage> parseFile(File file) throws IOException {
+  public List<WhatsappMessage> parseFile(File file) throws IOException, UnsupportedExportFileException {
     List<WhatsappMessage> messages = new ArrayList<>();
     try (Scanner scanner = new Scanner(file)) {
       while (scanner.hasNext()) {
@@ -35,6 +36,10 @@ public class WhatsappDefaultMessageParser {
         String message = parsedGroups.get(5);
         LocalDateTime localDate = LocalDateTime.parse(String.format("%s %s", date, time.toUpperCase()), dateTimeFormatter);
 
+        if (shouldFilterMessage(message)) {
+          continue;
+        }
+
         WhatsappMessage whatsappMessage = new WhatsappMessage()
             .setMessage(message)
             .setDateTime(localDate)
@@ -42,7 +47,14 @@ public class WhatsappDefaultMessageParser {
         messages.add(whatsappMessage);
       }
     }
+    if (messages.isEmpty()) {
+      throw new UnsupportedExportFileException("Regex mismatch");
+    }
     return messages;
+  }
+
+  private boolean shouldFilterMessage(String message) {
+    return message.toLowerCase().contains("<media omitted>");
   }
 
   private void addLineToPreviousMessage(List<WhatsappMessage> messages, String line) {

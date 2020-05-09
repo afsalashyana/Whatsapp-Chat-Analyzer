@@ -20,7 +20,7 @@
                      <children>
                         <LineChart fx:id="lineChartChatFrequencyByDate" layoutX="157.0" layoutY="64.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
                           <xAxis>
-                            <CategoryAxis animated="false" label="Date" side="BOTTOM" />
+                            <CategoryAxis animated="false" label="Date" side="BOTTOM" tickLabelGap="5.0" />
                           </xAxis>
                           <yAxis>
                             <NumberAxis label="Number of messages" side="LEFT" />
@@ -50,7 +50,7 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <PieChart fx:id="pieChartSenderDistribution" maxHeight="500.0" prefHeight="500.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0" />
+                        <PieChart fx:id="pieChartSenderDistribution" maxHeight="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0" />
                      </children>
                   </AnchorPane>
                </content>

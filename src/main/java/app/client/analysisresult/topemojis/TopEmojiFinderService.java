@@ -24,7 +24,7 @@ public class TopEmojiFinderService {
         .entrySet().stream()
         .sorted(comparator.reversed())
         .limit(10)
-        .forEach(entry -> series.getData().add(new Data<>(entry.getKey(), entry.getValue())));
+        .forEach(entry -> series.getData().add(new Data<>(getUpdatedEmoji(entry.getKey()), entry.getValue())));
     return series;
   }
 
@@ -40,5 +40,24 @@ public class TopEmojiFinderService {
       return true;
     }
     return false;
+  }
+
+  private String getUpdatedEmoji(String emoji) {
+    if (EmojiParser.parseToAliases(emoji).equalsIgnoreCase(":rolling_on_the_floor_laughing:")) {
+      return EmojiParser.parseToUnicode("\uD83D\uDE02");
+    }
+    return emoji;
+  }
+
+  private String convertToUnicodeString(String string) {
+    StringBuilder unicodeString = new StringBuilder();
+    for (char c : string.toCharArray()) {
+      unicodeString.append(convertCharacterToUnicode(c).toLowerCase());
+    }
+    return unicodeString.toString();
+  }
+
+  private String convertCharacterToUnicode(char ch) {
+    return String.format("\\\\u%04x", (int) ch);
   }
 }
