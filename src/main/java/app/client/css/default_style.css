@@ -1,0 +1,33 @@
+* {
+  -fx-font-family: "Noto Sans CJK SC Regular";
+}
+
+.button {
+  -fx-font-size: 16pt;
+}
+
+.tab-pane {
+  -fx-font-size: 14pt;
+}
+
+.default-title {
+  -fx-font-family: "Roboto Thin", "Noto Sans CJK SC Thin";
+  -fx-font-size: 24pt;
+  -fx-background-color: #383838;
+  -fx-text-fill: white;
+}
+
+.default-container {
+  -fx-background-color: #f3f3f3;
+}
+
+.jfx-button {
+  -fx-padding: 15px 25px;
+  -jfx-button-type: RAISED;
+  -fx-background-color: #3F51B5;
+  -fx-text-fill: white;
+}
+
+.default-color0.chart-series-line {
+  -fx-stroke: #db0448;
+}
