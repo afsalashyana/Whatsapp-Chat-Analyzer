@@ -8,8 +8,9 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="600.0" prefWidth="800.0" styleClass="default-container" stylesheets="/app/client/css/default_style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.client.analysisresult.AnalysisResultPresenter">
+<AnchorPane fx:id="rootPane" prefHeight="600.0" prefWidth="1000.0" styleClass="default-container" stylesheets="/app/client/css/default_style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.client.analysisresult.AnalysisResultPresenter">
    <children>
       <TabPane fx:id="tabPane" layoutX="50.0" layoutY="57.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -49,7 +50,27 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <PieChart fx:id="pieChartSenderDistribution" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0" />
+                        <PieChart fx:id="pieChartSenderDistribution" maxHeight="500.0" prefHeight="500.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Top 10 Emojis">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BarChart fx:id="barChartEmojiCount" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+                           <xAxis>
+                              <CategoryAxis animated="false" label="Emoji" side="BOTTOM" styleClass="emoji-font">
+                                 <tickLabelFont>
+                                    <Font size="30.0" />
+                                 </tickLabelFont>
+                              </CategoryAxis>
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis label="Count" side="LEFT" />
+                           </yAxis>
+                        </BarChart>
                      </children>
                   </AnchorPane>
                </content>

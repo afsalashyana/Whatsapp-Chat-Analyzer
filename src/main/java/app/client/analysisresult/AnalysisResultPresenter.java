@@ -2,6 +2,7 @@ package app.client.analysisresult;
 
 import app.client.analysisresult.dailyfrequency.DailyChatFrequencyService;
 import app.client.analysisresult.messagecount.MessageCountDistributionService;
+import app.client.analysisresult.topemojis.TopEmojiFinderService;
 import app.client.analysisresult.topwords.TopWordFinderService;
 import app.server.parser.model.WhatsappMessage;
 import java.net.URL;
@@ -33,6 +34,8 @@ public class AnalysisResultPresenter implements Initializable {
   public BarChart<String, Long> barChartWordCount;
   @FXML
   public PieChart pieChartSenderDistribution;
+  @FXML
+  public BarChart<String, Long> barChartEmojiCount;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -47,6 +50,13 @@ public class AnalysisResultPresenter implements Initializable {
     populateFrequencyGraph();
     populateWordCountGraph();
     populateSenderDistributionGraph();
+    populateEmojiCountGraph();
+  }
+
+  private void populateEmojiCountGraph() {
+    barChartEmojiCount.getData().clear();
+    XYChart.Series<String, Long> emojiCountData = new TopEmojiFinderService().prepareChartData(whatsappMessages);
+    barChartEmojiCount.getData().add(emojiCountData);
   }
 
   private void populateSenderDistributionGraph() {

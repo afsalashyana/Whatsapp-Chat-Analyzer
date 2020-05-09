@@ -2,6 +2,11 @@
   -fx-font-family: "Noto Sans CJK SC Regular";
 }
 
+@font-face {
+  font-family: EmojiFont;
+  src: url('NotoColorEmoji.ttf');
+}
+
 .button {
   -fx-font-size: 16pt;
 }
@@ -30,4 +35,8 @@
 
 .default-color0.chart-series-line {
   -fx-stroke: #db0448;
+}
+
+.emoji-font {
+  -fx-font-family: "EmojiFont";
 }
