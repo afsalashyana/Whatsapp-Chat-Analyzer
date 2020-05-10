@@ -42,9 +42,13 @@ public class ValidParserPickerHelper {
 
   private List<String> readFirst50Lines(File file) throws IOException {
     List<String> buffer = new ArrayList<>();
+    int counter = 0;
     try (Scanner scanner = new Scanner(file)) {
       while (scanner.hasNext()) {
         buffer.add(scanner.nextLine());
+        if (counter++ > 50) {
+          break;
+        }
       }
     }
     return buffer;
