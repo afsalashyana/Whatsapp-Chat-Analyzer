@@ -16,8 +16,9 @@ Analyze WhatsApp chat with beautiful graphs.
 - Written on JavaFX
 - Java 11+ JRE is required
 
-### Supported chat pattern
+### Supported chat patterns
  ```
     04/07/20, 2:11 pm - Contact name: Message...
+    19/09/2017, 19:08 - Contact name: Message...
   ```
  If you would like to have more chat patterns supported, please raise an issue.
