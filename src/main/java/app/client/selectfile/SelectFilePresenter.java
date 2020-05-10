@@ -1,9 +1,10 @@
 package app.client.selectfile;
 
 import app.client.navigation.NavigationService;
-import app.server.parser.WhatsappDefaultMessageParser;
 import app.server.parser.exception.UnsupportedExportFileException;
+import app.server.parser.model.IWhatsappMessageParser;
 import app.server.parser.model.WhatsappMessage;
+import app.server.parser.validate.ValidParserPickerHelper;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -21,6 +22,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
+@SuppressWarnings("SameParameterValue")
 public class SelectFilePresenter implements Initializable {
 
   private static final Logger log = Logger.getLogger(SelectFilePresenter.class.getName());
@@ -34,14 +36,25 @@ public class SelectFilePresenter implements Initializable {
   }
 
   public void handleButtonSelectFileAction(ActionEvent actionEvent) {
+    File file = selectFile();
+    if (file == null) {
+      showErrorMessage("No valid file selected!");
+      return;
+    }
+    log.log(Level.INFO, "File selected: {0}", file.getAbsolutePath());
+    startFileParsing(file);
+  }
+
+  private void startFileParsing(File file) {
     try {
-      File file = selectFile();
-      if (file != null) {
-        log.log(Level.INFO, "File selected: {0}", file.getAbsolutePath());
-        WhatsappDefaultMessageParser parser = new WhatsappDefaultMessageParser();
-        List<WhatsappMessage> messageList = parser.parseFile(file);
-        NavigationService.getInstance().launchResultView(getStage(), messageList);
+      IWhatsappMessageParser parser = findMatchingParser(file);
+      if (parser == null) {
+        showInvalidFileException();
+        return;
       }
+      log.log(Level.INFO, "Parser selected: {0}", parser.getClass().getSimpleName());
+      List<WhatsappMessage> messageList = parser.parseFile(file);
+      NavigationService.getInstance().launchResultView(getStage(), messageList);
     } catch (IOException e) {
       showFileCannotBeReadException();
       e.printStackTrace();
@@ -52,6 +65,11 @@ public class SelectFilePresenter implements Initializable {
       showException(e);
       e.printStackTrace();
     }
+  }
+
+  private IWhatsappMessageParser findMatchingParser(File file) throws Exception {
+    ValidParserPickerHelper parserPickerHelper = new ValidParserPickerHelper();
+    return parserPickerHelper.validateFileAgainstParsers(file);
   }
 
   private void showException(Exception exception) {
@@ -72,6 +90,13 @@ public class SelectFilePresenter implements Initializable {
     Alert alert = new Alert(AlertType.ERROR);
     alert.setTitle("Invalid file!");
     alert.setContentText("Given export file is not compatible. Sorry!");
+    alert.showAndWait();
+  }
+
+  private void showErrorMessage(String errorMessage) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setTitle("Error occurred!");
+    alert.setContentText(errorMessage);
     alert.showAndWait();
   }
 

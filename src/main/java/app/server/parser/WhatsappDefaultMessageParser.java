@@ -1,6 +1,7 @@
 package app.server.parser;
 
 import app.server.parser.exception.UnsupportedExportFileException;
+import app.server.parser.model.IWhatsappMessageParser;
 import app.server.parser.model.WhatsappMessage;
 import com.google.common.collect.Iterables;
 import java.io.File;
@@ -14,11 +15,13 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class WhatsappDefaultMessageParser {
+@SuppressWarnings("DuplicatedCode")
+public class WhatsappDefaultMessageParser implements IWhatsappMessageParser {
 
-  private static final String MAIN_REGEX = "^(\\d+\\/\\d+\\/\\d+),.(\\d+:\\d+.(pm|am)).-.([^:]*):(.*)";
+  public static final String MAIN_REGEX = "^(\\d+\\/\\d+\\/\\d+),.(\\d+:\\d+.(pm|am)).-.([^:]*):(.*)";
   private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yy h:mm a", Locale.US);
 
+  @Override
   public List<WhatsappMessage> parseFile(File file) throws IOException, UnsupportedExportFileException {
     List<WhatsappMessage> messages = new ArrayList<>();
     try (Scanner scanner = new Scanner(file)) {
@@ -75,5 +78,10 @@ public class WhatsappDefaultMessageParser {
       }
     }
     return regexGroups;
+  }
+
+  @Override
+  public String getRegex() {
+    return MAIN_REGEX;
   }
 }

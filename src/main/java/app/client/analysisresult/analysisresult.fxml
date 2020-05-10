@@ -20,7 +20,7 @@
                      <children>
                         <LineChart fx:id="lineChartChatFrequencyByDate" layoutX="157.0" layoutY="64.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
                           <xAxis>
-                            <CategoryAxis animated="false" label="Date" side="BOTTOM" tickLabelGap="5.0" />
+                            <CategoryAxis animated="false" label="Date" side="BOTTOM" tickLabelGap="8.0" />
                           </xAxis>
                           <yAxis>
                             <NumberAxis label="Number of messages" side="LEFT" />
