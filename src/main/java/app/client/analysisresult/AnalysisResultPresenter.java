@@ -1,5 +1,6 @@
 package app.client.analysisresult;
 
+import app.client.analysisresult.charactercount.MessageCharacterCountDistributionService;
 import app.client.analysisresult.dailyfrequency.DailyChatFrequencyService;
 import app.client.analysisresult.messagecount.MessageCountDistributionService;
 import app.client.analysisresult.topemojis.TopEmojiFinderService;
@@ -36,6 +37,8 @@ public class AnalysisResultPresenter implements Initializable {
   public PieChart pieChartSenderDistribution;
   @FXML
   public BarChart<String, Long> barChartEmojiCount;
+  @FXML
+  public PieChart pieChartCharacterCount;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -51,6 +54,7 @@ public class AnalysisResultPresenter implements Initializable {
     populateWordCountGraph();
     populateSenderDistributionGraph();
     populateEmojiCountGraph();
+    populateCharacterDistributionGraph();
   }
 
   private void populateEmojiCountGraph() {
@@ -75,5 +79,11 @@ public class AnalysisResultPresenter implements Initializable {
     lineChartChatFrequencyByDate.getData().clear();
     XYChart.Series<String, Long> chatFrequencyData = new DailyChatFrequencyService().prepareChartData(whatsappMessages);
     lineChartChatFrequencyByDate.getData().add(chatFrequencyData);
+  }
+
+  private void populateCharacterDistributionGraph() {
+    pieChartCharacterCount.getData().clear();
+    List<PieChart.Data> dataSeries = new MessageCharacterCountDistributionService().prepareChartData(whatsappMessages);
+    pieChartCharacterCount.getData().addAll(dataSeries);
   }
 }
